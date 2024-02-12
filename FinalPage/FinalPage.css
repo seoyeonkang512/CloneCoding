@@ -94,6 +94,7 @@ header.black-bg{
     color: white;
     cursor: pointer;
     margin-bottom: 10px;
+    margin-left: 85px;
 }
 .explore-nudge{
     color: #54b9c5;
@@ -112,9 +113,9 @@ header.black-bg{
     overflow-y: hidden;
 }
 .movie-item{
-    width: 245px;
+    width: 210px;
+    margin-right: 10px; 
     object-fit: contain;
-    margin-right: 6px;
     border-radius: 4px;
     position: relative;
 }
@@ -210,6 +211,62 @@ header.black-bg{
     width: 100%;
 }
 
+footer {
+    width: 100%;
+    margin-bottom: 2rem;
+    transform: translateX(7.5%); /* 중앙에서 왼쪽으로 50% 이동 */
+}
+footer .wrap {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2em;
+}
+footer .wrap .options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1em;
+}
+footer .wrap .options .option {
+    color: #6f6f6f;
+}
+
+.movies-slider-container {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+
+.slider-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0; 
+    color: white; 
+    margin: 0 10px; 
+}
+
+
+.slider-prev {
+    margin-right: 20px;
+}
+
+.slider-next {
+    margin-left: 20px;
+}
+
+.slider-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+    color: white; 
+}
+
 
 
 /* RESPONSIVE CSS */
@@ -262,9 +319,6 @@ header.black-bg{
 }
 
 @media (min-width:767px) {
-    .main-nav{
-        display: none;
-    }
     .banner__overview, .banner__title{
         max-width: 100%;
     }

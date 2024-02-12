@@ -80,12 +80,13 @@ function fetchAndbuildMovieSection(fetchUrl, categoryName) {
       // console.table(res.results);
       const movies = res.results;
       if (Array.isArray(movies) && movies.length) {
-        buildMoviesSection(movies.slice(0, 6), categoryName);
+        buildMoviesSection(movies.slice(0, 20), categoryName);
       }
       return movies;
     })
     .catch((err) => console.error(err));
 }
+let currentSlideIndex = 0;
 
 function buildMoviesSection(list, categoryName) {
   console.log(list, categoryName);
@@ -102,20 +103,62 @@ function buildMoviesSection(list, categoryName) {
     })
     .join("");
 
-  const moviesSectionHTML = `
-        <h2 class="movie-section-heading">${categoryName} <span class="explore-nudge">Explore All</span></span></h2>
-        <div class="movies-row">
-            ${moviesListHTML}
-        </div>
-    `;
-
+    const moviesSectionHTML = `
+    <h2 class="movie-section-heading">${categoryName} <span class="explore-nudge">전체 탐색</span></h2>
+    <div class="movies-slider-container">
+      <button class="slider-button slider-prev" onclick="changeSlide('${categoryName.replace(/\s+/g, '-').toLowerCase()}', -1)">
+        <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-chevron-left">
+          <path d="M15 18l-6-6 6-6"></path>
+        </svg>
+      </button>
+      <div class="movies-row" id="${categoryName.replace(/\s+/g, '-').toLowerCase()}-slider">
+        ${moviesListHTML}
+      </div>
+      <button class="slider-button slider-next" onclick="changeSlide('${categoryName.replace(/\s+/g, '-').toLowerCase()}', 1)">
+        <svg width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-chevron-right">
+          <path d="M9 18l6-6-6-6"></path>
+        </svg>
+      </button>
+    </div>
+  `;
+  
   const div = document.createElement("div");
   div.className = "movies-section";
   div.innerHTML = moviesSectionHTML;
-
+  
   // append html into movies container
-  moviesCont.append(div);
+  moviesCont.append(div);  
 }
+
+
+// 슬라이드 변경 함수
+function changeSlide(sliderId, direction) {
+  const slides = document.querySelectorAll(`#${sliderId}-slider .movie-item`);
+
+  // 현재 슬라이드 인덱스를 증가 또는 감소시킴
+  currentSlideIndex += direction * 5;
+
+  // 처음 슬라이드로 되돌아가기 위해 음수로 될 경우 보정
+  if (currentSlideIndex < 0) {
+    currentSlideIndex = 0;
+  }
+
+  // 마지막 슬라이드를 벗어나면 처음 슬라이드로
+  if (currentSlideIndex >= slides.length) {
+    currentSlideIndex = 0;
+  }
+
+  // 모든 슬라이드 숨기고 현재 슬라이드부터 5개 표시
+  slides.forEach((slide, index) => {
+    if (index >= currentSlideIndex && index < currentSlideIndex + 5) {
+      slide.style.display = 'block';
+    } else {
+      slide.style.display = 'none';
+    }
+  });
+}
+
+
 
 function searchMovieTrailer(movieName, iframId) {
   if (!movieName) return;
